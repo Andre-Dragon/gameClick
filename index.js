@@ -1,5 +1,7 @@
 document.addEventListener( 'DOMContentLoaded', () => {
   
+   alert('Привет!!! 😉 Как играть? 🤔 Просто нажми "НАЧАТЬ" и кликай по всплывающим картинкам!!! 😜');
+  
   const $start = document.getElementById( 'start' );
   const $end = document.getElementById( 'end' );
   const $game = document.getElementById( 'game' );
