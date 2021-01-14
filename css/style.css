@@ -168,7 +168,7 @@ body {
 .entrance__img {
   position: absolute; 
   position: absolute;
-  top: -32px;
+  top: -40px;
   right: -22px;
   z-index: 2;
   width: 120px;
@@ -229,7 +229,7 @@ button {
   transition: all .6s ease-in-out;
 }
 
-.entrance__btn {
+.common__btn {
   width: 6.5rem;
   height: 2.85rem;
   margin: 0 auto 20px;
@@ -238,13 +238,12 @@ button {
   overflow: hidden;
   opacity: 0; 
   z-index: -2;
-  transition: all .6s ease-in-out;
+  transition: all .5s ease-in-out;
 }
 
 .question__btn {
   animation: box-show 3s 1; 
   animation-fill-mode: forwards;
-  transition: all .6s ease-in-out;
 }
 
 .app__loader {
@@ -279,7 +278,7 @@ button {
   text-shadow: 1px 1px 1px #f5f5f5;
   text-align: center;
   font-weight: bold;
-  font-size: 1.75rem;
+  font-size: 1.625rem;
   animation: load 4s steps(22, end);
 }
 
@@ -375,7 +374,7 @@ button {
   margin-bottom: 20px;
   font-family: 'Playfair Display', serif;
   font-weight: 900;
-  font-size: 2rem;
+  font-size: 1.875rem;
   background: url(../images/game-fon.png) no-repeat;
   background-position: top;
   background-size: cover;
@@ -482,7 +481,7 @@ button {
 
 .input label {
   display: inline-block;
-  max-width: 600px;
+  max-width: 320px;
   margin-bottom: 6px;
   color: #acacac;
   font-family: 'Open Sans', sans-serif;
@@ -633,7 +632,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .animate__modal {
-  transition: 3.5s; /*Скорость перехода состояния элемента*/
+  /* transition: 3.5s; //Скорость перехода состояния элемента */
   animation: box-show 3.5s 1; /* Указываем название анимации, её время и количество повторов*/
   animation-fill-mode: forwards; /* Чтобы элемент оставался в конечном состоянии анимации */ 
   /* animation-delay: 5s; */ /* Задержка*/
@@ -775,6 +774,18 @@ input[type="number"]::-webkit-inner-spin-button {
 @media(max-width: 1140px) {
   .app__wrapper {
     margin: 0 auto;
+  }
+}
+
+@media(max-width: 480px) {
+
+  .procent__loader {
+    font-size: 1.5rem;
+  }
+
+  .app__header {
+    font-size: 1.75rem;
+    padding: 15px 0 15px 5px;
   }
 }
 

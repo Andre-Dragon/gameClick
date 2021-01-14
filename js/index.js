@@ -24,6 +24,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
   // const btnPrev = document.querySelector( '.slider__btn--prev' );
   // const btnNext = document.querySelector( '.slider__btn--next' );
   
+  // Audio
   const $printAudio = new Audio('./audio/print.mp3');
   const $boxYesAudio = new Audio('./audio/yes.mp3');
   const $boxNoAudio = new Audio('./audio/no.mp3');
@@ -34,14 +35,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
   const $textAudio = new Audio('./audio/text.mp3');
 
   $fonAudio.loop = true;
-  $fonAudio.volume = 0.2;
+  $fonAudio.volume = 0.3;
   $endAudio.volume = 0.4;
   $printAudio.volume = 0.5;
-  $textAudio.volume = 0.8;
-  $clickAudio.volume = 0.7;
+  $textAudio.volume = 0.7;
+  $clickAudio.volume = 0.5;
   $loaderAudio.volume = 0.6;
-  $boxYesAudio.volume = 0.5;
-  $boxNoAudio.volume = 0.5;
+  $boxYesAudio.volume = 0.4;
+  $boxNoAudio.volume = 0.4;
 
   const strText =  [
     'Привет, игрок!\n',
@@ -51,17 +52,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
     'Время игры можно изменять.\n',
   ];
 
+  // рандом изображения и цвета
   const imagesBox = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, ];
 
   const colorsBox = [ '#FF0000', '#0000FF', '#FF1493', '#008000', '#7FFF00', '#808000', '#00FFFF',
 '#48D1CC', '#FF4500', '#2F4F4F', '#800080', '#A52A2A', '#4B0082', '#32CD32', '#191970', ];
 
-  const $minNum = 5;
-  const $maxNum = 999;
-  
   let score = 0;
-  let isStarted = false;
-  let total = $gameTime.value; 
+  let isStarted = false; 
 
   let curSlide = 0;
   let timer;
@@ -82,7 +80,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
       }
       $printAudio.play();
       elem.innerHTML += txt.shift();
-    }, speed !== undefined ? speed : 60 );
+    }, speed !== undefined ? speed : 70 );
 
     return false;
     
@@ -165,6 +163,36 @@ document.addEventListener( 'DOMContentLoaded', () => {
     hide( $resultHeader );
     
   }
+
+  // добавление и убавление времени через кнопки
+  function addGameTime() {
+
+    let maxNum = 60;
+
+    if ( +$gameTime.value >= maxNum ) {
+      $btnPlus.disabled = true;
+    } else {
+      $btnMinus.disabled = false;
+      $gameTime.stepUp(); 
+      setGameTime();
+      $clickAudio.play();
+    }
+
+  }
+
+  function removeGameTime() {
+    let minNum = 10;
+    
+    if ( +$gameTime.value <= minNum ) { 
+      $btnMinus.disabled = true;
+    } else {
+      $btnPlus.disabled = false;
+      $gameTime.stepDown(); 
+      setGameTime();
+      $clickAudio.play();
+    } 
+
+  }
   
   // конец игры
   function endGame() {
@@ -234,9 +262,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
     if ( target.dataset.box ) {
       
       $boxYesAudio.play();
+      $boxYesAudio.currentTime = 0;
       score++;
       renderBox();
-      
     } else {
       $boxNoAudio.play();
     }
@@ -302,40 +330,37 @@ document.addEventListener( 'DOMContentLoaded', () => {
   //   if ( e.key === 'ArrowLeft' ) prevSlide();
   //   e.key === 'ArrowRight' && nextSlide();
   // });
-  
-   // добавление время через кнопки
-  $btnPlus.addEventListener( 'click', () => {
-    if ( total < $maxNum ) { 
-      $gameTime.stepUp(); 
-      setGameTime();
-      $clickAudio.play();
-    }
-    });
-    
-  $btnMinus.addEventListener( 'click', () => {
-    if ( total > $minNum ) { 
-      $gameTime.stepDown(); 
-      setGameTime();
-      $clickAudio.play();
-    }
-    });
     
   // стилизация input 
   $gameTime.addEventListener( 'input', function() { 
-    let maxChars = 3; 
+
+    let maxChars = 2; 
     let value= +this.value.replace(/\D/g,'')||0;
-	  let min = +this.getAttribute('min');
-	  let max = +this.getAttribute('max');
+    let min = +this.getAttribute('min');
+    let max = +this.getAttribute('max');
+    
+    if ( value > min || value < max ) {
+      $btnPlus.disabled = false;
+      $btnMinus.disabled = false;
+    }
 
     if ( this.value.length > maxChars ) {
       this.value = this.value.substring( 0, maxChars );
     }
 
-    this.value = Math.min(max, Math.max( min, value ) );
-    
-    this.value = this.value.replace( /[^\d]/g, ' ' );
+    setGameTime();
+
+    this.addEventListener( 'change', function() {
+      this.value = Math.min(max, Math.max( min, value ) );
+      this.value = this.value.replace( /[^\d]/g, ' ' );
+
+      setGameTime();
+      
+    });
+  
   });
 
+  // Запуск модельного окна
   $questionBtn.addEventListener( 'click', () => {
     $entranceQuestion.classList.add('hide');
     $entranceDescription.classList.remove('hide');
@@ -343,9 +368,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
     $clickAudio.play();
     $textAudio.play();
   });
+
   $entranceBtn.addEventListener( 'click', loaderPageGame );
   $start.addEventListener( 'click', startGame );
   $game.addEventListener( 'click', handleBoxClick );
   $gameTime.addEventListener( 'input', setGameTime );
+  $btnPlus.addEventListener( 'click', addGameTime ); 
+  $btnMinus.addEventListener( 'click', removeGameTime );
   
 });

@@ -3,8 +3,15 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta property="og:title" content="Кликсики">
+  <meta property="og:site_name" content="Мини игра-Кликсики">
+  <meta property="og:url" content="https://andre-dragon.github.io/gameClick/">
+  <meta property="og:description" content="Игра для развития навыков реакции и внимания">
+  <meta property=”og:image” content="https://andre-dragon.github.io/gameClick/images/smails/smiley-17.png">
+  <meta property=”og:image” content="favicon/large-fb.png">
+  <meta property=”og:image” content="favicon/small-im.png">
   <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
@@ -45,12 +52,12 @@
           <img src="./images/smails/smiley-20.png" alt="smail" class="entrance__img" id="entrance__img">
           <div id="entrance__question" class="entrance__question">
             <p class="question__text">Хочешь играть ?</p>
-            <button class="question__btn entrance__btn button" id="question__btn">Да</button>
+            <button class="question__btn common__btn button" id="question__btn">Да</button>
           </div>
           <div id="entrance__description" class="entrance__description hide">
             <pre class="entrance__text" id="entrance__text">
             </pre>
-            <button class="entrance__btn button" id="entrance__btn">OK</button>
+            <button class="entrance__btn common__btn button" id="entrance__btn">OK</button>
           </div>
         </div>
       </div>
@@ -86,7 +93,7 @@
       </div>
       <div class="app__game hide" id="app__game">
         <div class="app__header">
-          <h2 class="header__title" id="time-header">Время игры: <span class="header__time" id="time">8.0</span></h2>
+          <h2 class="header__title" id="time-header">Время игры: <span class="header__time" id="time">10.0</span></h2>
           <h2 class="header__title hide" id="result-header">Ваш результат: <span class="header__result"
               id="result"></span></h2>
         </div>
@@ -319,7 +326,7 @@
           <div class="input">
             <label for="game-time">Время игры, (сек)</label>
             <button class="btn__minus" id="btn__minus">&minus;</button>
-            <input type="number" id="game-time" min="5" max="999" step="1" value="8">
+            <input type="number" id="game-time" min="10" max="60" step="1" value="10">
             <button class="btn__plus" id="btn__plus">&plus;</button>
           </div>
         </div>
