@@ -377,7 +377,7 @@ button {
   margin-bottom: 20px;
   font-family: 'Playfair Display', serif;
   font-weight: 900;
-  font-size: 1.875rem;
+  font-size: 2rem;
   background: url(../images/game-fon.png) no-repeat;
   background-position: top;
   background-size: cover;
@@ -787,11 +787,11 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 
   .procent__loader {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 
   .app__header {
-    font-size: 1.75rem;
+    font-size: 1.875rem;
     padding: 15px 0 15px 5px;
   }
 }
