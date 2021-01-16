@@ -19,12 +19,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
   const $appLoader = document.getElementById( 'app__loader' );
   const $appGame = document.getElementById( 'app__game' );
 
+  // слайдер
   const $appCarousel = document.querySelector( '.app__carousel' );
   const $slides = document.querySelectorAll( '.app__slide' );
-  // const btnPrev = document.querySelector( '.slider__btn--prev' );
-  // const btnNext = document.querySelector( '.slider__btn--next' );
   
-  // Audio
+  // аудио
   const $printAudio = new Audio('./audio/print.mp3');
   const $boxYesAudio = new Audio('./audio/yes.mp3');
   const $boxNoAudio = new Audio('./audio/no.mp3');
@@ -65,8 +64,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
   let timer;
   const maxSlide = $slides.length;
 
+  let minNum = +$gameTime.getAttribute('min');
+  let maxNum = +$gameTime.getAttribute('max');
+
   // печетать текст
-  function writeTextByJS( id, text, speed ) {
+  const writeTextByJS = ( id, text, speed ) => {
 
     const elem = document.getElementById( id ),
       txt = text.join('').split('');
@@ -84,29 +86,29 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
     return false;
     
-  }
+  };
     
   // загрузка страницы
-  function loaderPageGame() {
-    $appEntrance.classList.add('hide');
-    $appLoader.classList.remove('hide');
+  const loaderPageGame = () => {
+    hide( $appEntrance );
+    show( $appLoader );
     $clickAudio.play();
     $loaderAudio.play();
     setTimeout( () => {
-      $appLoader.classList.add('hide');
-      $appGame.classList.remove('hide');
+      hide(  $appLoader );
+      show(  $appGame );
       $loaderAudio.pause();
       $fonAudio.play();
     }, 2100);
-  }
+  };
 
   // рандомный размер блока
-  function getRandom( min, max ) {
+  const getRandom = ( min, max ) => {
     return Math.floor( Math.random() * ( max - min ) + min );
-  }
+  };
 
   // создание блока
-  function renderBox() {
+  const renderBox = () => {
     
     $game.innerHTML = '';
     
@@ -134,74 +136,75 @@ document.addEventListener( 'DOMContentLoaded', () => {
     box.style.cursor = 'pointer';
     
     $game.insertAdjacentElement( 'afterbegin', box ); // добавляем в dom наш блок    
-  }
+  };
   
   // скрыть елемент
-  function hide( $el ) {
+  const hide = ( $el ) => {
     $el.classList.add( 'hide' );
-  }
+  };
   
   // показать елемент
-  function show( $el ) {
+  const show = ( $el ) => {
     $el.classList.remove( 'hide' );
-  }
+  };
   
   // вывод результата
-  function setGameScore() {
-    
+  const setGameScore = () => {
     $result.textContent = score.toString();
-    
-  }
-  
+  };
+
+  // кнопки + и - disabled
+  const btnDisabledPlus = () => {
+    $btnPlus.disabled = ( +$gameTime.value >= maxNum ) ? true : null;
+  };
+  btnDisabledPlus();
+
+  const btnDisabledMunus = () => {
+    $btnMinus.disabled = ( +$gameTime.value <= minNum ) ? true : null;
+  };
+  btnDisabledMunus();
+
   // время для игры
-  function setGameTime() {
-    
+  const setGameTime = () => {
+
     let time = +$gameTime.value;
     $time.textContent = time.toFixed(1);
-    
+  
     show( $timeHeader );
     hide( $resultHeader );
     
-  }
+  };
 
   // добавление и убавление времени через кнопки
-  function addGameTime() {
+  const addGameTime = () => {
 
-    let maxNum = 60;
-
-    if ( +$gameTime.value >= maxNum ) {
-      $btnPlus.disabled = true;
-    } else {
-      $btnMinus.disabled = false;
+    if ( +$gameTime.value <= maxNum ) {
       $gameTime.stepUp(); 
       setGameTime();
       $clickAudio.play();
+      $btnMinus.disabled = false;
     }
+    btnDisabledPlus();
+  };
 
-  }
-
-  function removeGameTime() {
-    let minNum = 10;
-    
-    if ( +$gameTime.value <= minNum ) { 
-      $btnMinus.disabled = true;
-    } else {
-      $btnPlus.disabled = false;
+  const removeGameTime = () => {
+    if ( +$gameTime.value >= minNum ) { 
       $gameTime.stepDown(); 
       setGameTime();
       $clickAudio.play();
-    } 
-
-  }
+      $btnPlus.disabled = false;
+    }
+    btnDisabledMunus();
+  };
   
   // конец игры
-  function endGame() {
+  const endGame = () => {
     
     isStarted = false;
-    $appCarousel.classList.remove( 'hide' );
     setGameScore();
     $endAudio.play();
     $game.innerHTML = '';
+    show( $appCarousel );
     hide( $timeHeader );
     show( $resultHeader );
     show( $end );
@@ -214,16 +217,17 @@ document.addEventListener( 'DOMContentLoaded', () => {
       $btnMinus.disabled= false;
       show( $start );
       hide( $end );
+      btnDisabledPlus();
+      btnDisabledMunus();
     }, 3000);
     
-  }
+  };
   
   // старт игры
-  function startGame() {
+  const startGame = () => {
     
     isStarted = true;
     score = 0;
-    $appCarousel.classList.add( 'hide' );
     $gameTime.style.color = '#ccc';
     $gameTime.disabled = true;
     $btnPlus.disabled = true;
@@ -232,7 +236,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
     $fonAudio.pause();
     $fonAudio.currentTime = 0;
     $clickAudio.play();
-    
+    hide( $appCarousel );
     hide( $start );
     
     const interval = setInterval( () => {
@@ -251,10 +255,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
     
     renderBox();
     
-  }
+  };
   
   // отлавливаем клик по блоку
-  function handleBoxClick( event ) {
+  const handleBoxClick = event => {
     
     const target = event.target;
     if ( !isStarted ) return;
@@ -269,10 +273,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
       $boxNoAudio.play();
     }
     
-  }
+  };
 
   // Slider
-  const goToSlide = ( slide ) => {
+  const goToSlide = slide => {
     $slides.forEach(
       ( s, i ) => ( s.style.transform = `translateX( ${100 * ( i - slide )}% )` )
     );
@@ -321,49 +325,27 @@ document.addEventListener( 'DOMContentLoaded', () => {
   };
 
   init();
-
-  // Event handlers
-  // btnNext.addEventListener( 'click', nextSlide );
-  // btnPrev.addEventListener( 'click', prevSlide );
-
-  // document.addEventListener( 'keydown', function (e) {
-  //   if ( e.key === 'ArrowLeft' ) prevSlide();
-  //   e.key === 'ArrowRight' && nextSlide();
-  // });
     
-  // стилизация input 
-  $gameTime.addEventListener( 'input', function() { 
-
-    let maxChars = 2; 
-    let value= +this.value.replace(/\D/g,'')||0;
-    let min = +this.getAttribute('min');
-    let max = +this.getAttribute('max');
-    
-    if ( value > min || value < max ) {
-      $btnPlus.disabled = false;
-      $btnMinus.disabled = false;
-    }
-
+  // стилизация input
+  $gameTime.addEventListener( 'input', function() {
+    let maxChars = 2;
     if ( this.value.length > maxChars ) {
       this.value = this.value.substring( 0, maxChars );
     }
+  });
 
+  $gameTime.addEventListener( 'change', function() {
+    let value= +$gameTime.value.replace(/\D/g,'');
+    this.value = Math.min( maxNum, Math.max( minNum, value ) );
+    btnDisabledMunus();
+    btnDisabledPlus();
     setGameTime();
-
-    this.addEventListener( 'change', function() {
-      this.value = Math.min(max, Math.max( min, value ) );
-      this.value = this.value.replace( /[^\d]/g, ' ' );
-
-      setGameTime();
-      
-    });
-  
   });
 
   // Запуск модельного окна
   $questionBtn.addEventListener( 'click', () => {
-    $entranceQuestion.classList.add('hide');
-    $entranceDescription.classList.remove('hide');
+    hide( $entranceQuestion );
+    show( $entranceDescription );
     writeTextByJS( 'entrance__text', strText );
     $clickAudio.play();
     $textAudio.play();
@@ -372,7 +354,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
   $entranceBtn.addEventListener( 'click', loaderPageGame );
   $start.addEventListener( 'click', startGame );
   $game.addEventListener( 'click', handleBoxClick );
-  $gameTime.addEventListener( 'input', setGameTime );
   $btnPlus.addEventListener( 'click', addGameTime ); 
   $btnMinus.addEventListener( 'click', removeGameTime );
   
