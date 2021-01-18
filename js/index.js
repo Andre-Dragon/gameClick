@@ -62,6 +62,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
   const colorsBox = [ '#FF0000', '#0000FF', '#FF1493', '#008000', '#7FFF00', '#808000', '#00FFFF',
 '#48D1CC', '#FF4500', '#2F4F4F', '#800080', '#A52A2A', '#4B0082', '#32CD32', '#191970', ];
 
+  // запрет ввода в input
+  const invalidChars = [ "-", "+", "e", ];
+
   const setting = {
     start: false,
     score: 0, 
@@ -103,6 +106,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
     show( $appLoader );
     $clickAudio.play();
     $loaderAudio.play();
+
     setTimeout( () => {
       hide(  $appLoader );
       show(  $appGame );
@@ -157,16 +161,19 @@ document.addEventListener( 'DOMContentLoaded', () => {
         setting.max = 100; 
         break; 
       case 'ease':
-        setting.min = 60; 
-        setting.max = 90;
+        setting.min = 40; 
+        setting.max = 100;
         break; 
       case 'middle':
-        setting.min = 40; 
-        setting.max = 70;
+        setting.min = 30; 
+        setting.max = 80;
         break;   
       case 'hard':
         setting.min = 20; 
-        setting.max = 50;
+        setting.max = 60;
+        break;
+      default:
+        $clickAudio.play();
         break;
     }
   };
@@ -237,12 +244,22 @@ document.addEventListener( 'DOMContentLoaded', () => {
       $appLevelWrap.classList.remove( 'animate__level--close');
       $appLevelBtn.classList.add( 'animate--level__btn--right' );
       $appLevelBtn.classList.remove( 'animate--level__btn--left' );
+      $loaderAudio.play();
+      setTimeout( () => {
+        $loaderAudio.pause();
+        $loaderAudio.currentTime = 0;
+      }, 1000 );
 
     } else if ( !$appLevelWrap.classList.contains( 'animate__level--close' ) ) {
       $appLevelWrap.classList.add( 'animate__level--close');
       $appLevelWrap.classList.remove( 'animate__level--open');
       $appLevelBtn.classList.remove( 'animate--level__btn--right' );
       $appLevelBtn.classList.add( 'animate--level__btn--left' );
+      $loaderAudio.play();
+      setTimeout( () => {
+        $loaderAudio.pause();
+        $loaderAudio.currentTime = 0;
+      }, 1000 );
     } 
 
   };
@@ -263,6 +280,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
     setTimeout( () => {
       $end.disabled = false;
     }, 2000);
+
   };
 
   // выход в меню
@@ -393,6 +411,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
   // стилизация input
   $gameTime.addEventListener( 'input', function() {
     let maxChars = 2;
+    this.value = this.value.replace(/[e\+\-]/gi, "");
+
     if ( this.value.length > maxChars ) {
       this.value = this.value.substring( 0, maxChars );
     }
@@ -406,6 +426,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
     setGameTime();
   });
 
+  $gameTime.addEventListener( 'keydown', event => {
+    if ( invalidChars.includes( event.key ) ) {
+      event.preventDefault();
+    }
+  });
+
   // Запуск модельного окна
   $questionBtn.addEventListener( 'click', () => {
     hide( $entranceQuestion );
@@ -414,7 +440,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
     $clickAudio.play();
     $textAudio.play();
   });
-
+  
   $entranceBtn.addEventListener( 'click', loaderPageGame );
   $start.addEventListener( 'click', startGame );
   $game.addEventListener( 'click', handleBoxClick );
