@@ -610,9 +610,10 @@ input[type="number"]::-webkit-inner-spin-button {
   text-align: center;
   padding: 6px 0;
   text-shadow: 1px 1px 3px #111, 
-      -1px 1px 3px #111, 
-      1px -1px 3px #111, 
-      -1px -1px 3px #111;
+    -1px 1px 3px #111, 
+    1px -1px 3px #111, 
+    -1px -1px 3px #111;
+  overflow: hidden;
 }
 
 .app__level--btn {
@@ -629,9 +630,9 @@ input[type="number"]::-webkit-inner-spin-button {
   transition: all .5s ease;
   border-radius: 50%;
   box-shadow: 2px 2px 3px #111, 
-      -2px 2px 3px #111, 
-      2px -2px 3px #111, 
-      -2px -2px 3px #111;
+    -2px 2px 3px #111, 
+    2px -2px 3px #111, 
+    -2px -2px 3px #111;
 }
 
 .app__level--btn:hover {
@@ -649,6 +650,7 @@ input[type="number"]::-webkit-inner-spin-button {
   width: 100%;
   display: block;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .form__fieldset {
