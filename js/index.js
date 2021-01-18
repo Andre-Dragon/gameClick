@@ -22,6 +22,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
   // слайдер
   const $appCarousel = document.querySelector( '.app__carousel' );
   const $slides = document.querySelectorAll( '.app__slide' );
+
+  // модульное окно сложности в игре
+  const $appLevelWrap = document.querySelector( '.app__level--wrap' );
+  const $appLevelBtn = document.querySelector( '.app__level--btn' );
+  const $formFieldset = document.querySelector( '.form__fieldset' );
   
   // аудио
   const $printAudio = new Audio('./audio/print.mp3');
@@ -57,8 +62,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
   const colorsBox = [ '#FF0000', '#0000FF', '#FF1493', '#008000', '#7FFF00', '#808000', '#00FFFF',
 '#48D1CC', '#FF4500', '#2F4F4F', '#800080', '#A52A2A', '#4B0082', '#32CD32', '#191970', ];
 
-  let score = 0;
-  let isStarted = false; 
+  const setting = {
+    start: false,
+    score: 0, 
+    min: 40,
+    max: 100,
+  };
 
   let curSlide = 0;
   let timer;
@@ -113,7 +122,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
     $game.innerHTML = '';
     
     let box = document.createElement( 'div' ); // создаем div
-    let boxSize = getRandom( 40, 100 );
+    let boxSize = getRandom( setting.min, setting.max );
     let gameSize = $game.getBoundingClientRect();
     let maxTop = gameSize.height - boxSize;
     let maxLeft = gameSize.width - boxSize;
@@ -137,6 +146,30 @@ document.addEventListener( 'DOMContentLoaded', () => {
     
     $game.insertAdjacentElement( 'afterbegin', box ); // добавляем в dom наш блок    
   };
+
+  /* Уровень сложности */
+  const gameLevel = event => {
+    const target = event.target;
+    if ( target === $formFieldset ) return;
+    switch ( target.id ) {
+      case 'classic':
+        setting.min = 40; 
+        setting.max = 100; 
+        break; 
+      case 'ease':
+        setting.min = 60; 
+        setting.max = 90;
+        break; 
+      case 'middle':
+        setting.min = 40; 
+        setting.max = 70;
+        break;   
+      case 'hard':
+        setting.min = 20; 
+        setting.max = 50;
+        break;
+    }
+  };
   
   // скрыть елемент
   const hide = ( $el ) => {
@@ -150,7 +183,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
   
   // вывод результата
   const setGameScore = () => {
-    $result.textContent = score.toString();
+    $result.textContent = setting.score.toString();
   };
 
   // кнопки + и - disabled
@@ -177,7 +210,6 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
   // добавление и убавление времени через кнопки
   const addGameTime = () => {
-
     if ( +$gameTime.value <= maxNum ) {
       $gameTime.stepUp(); 
       setGameTime();
@@ -196,38 +228,64 @@ document.addEventListener( 'DOMContentLoaded', () => {
     }
     btnDisabledMunus();
   };
-  
+
+  // открытие и закрытие модульного окна сложности в игре
+  const openFormModal = event => {
+
+    if ( !$appLevelWrap.classList.contains( 'animate__level--open' ) ) {
+      $appLevelWrap.classList.add( 'animate__level--open');
+      $appLevelWrap.classList.remove( 'animate__level--close');
+      $appLevelBtn.classList.add( 'animate--level__btn--right' );
+      $appLevelBtn.classList.remove( 'animate--level__btn--left' );
+
+    } else if ( !$appLevelWrap.classList.contains( 'animate__level--close' ) ) {
+      $appLevelWrap.classList.add( 'animate__level--close');
+      $appLevelWrap.classList.remove( 'animate__level--open');
+      $appLevelBtn.classList.remove( 'animate--level__btn--right' );
+      $appLevelBtn.classList.add( 'animate--level__btn--left' );
+    } 
+
+  };
+
   // конец игры
   const endGame = () => {
     
-    isStarted = false;
+    setting.start = false;
     setGameScore();
     $endAudio.play();
     $game.innerHTML = '';
-    show( $appCarousel );
     hide( $timeHeader );
     show( $resultHeader );
     show( $end );
-    
-    setTimeout(() => {
-      $fonAudio.play();
-      $gameTime.style.color = '#fff';
-      $gameTime.disabled = false;
-      $btnPlus.disabled = false;
-      $btnMinus.disabled= false;
-      show( $start );
-      hide( $end );
-      btnDisabledPlus();
-      btnDisabledMunus();
-    }, 3000);
-    
+    show( $appCarousel );
+    $end.disabled = true;
+
+    setTimeout( () => {
+      $end.disabled = false;
+    }, 2000);
+  };
+
+  // выход в меню
+  const exitGame = () => {
+    $clickAudio.play();
+    $fonAudio.play();
+    $gameTime.style.color = '#fff';
+    $gameTime.disabled = false;
+    $btnPlus.disabled = false;
+    $btnMinus.disabled= false;
+    show( $start );
+    hide( $end );
+    show( $appLevelWrap );
+    show( $appLevelBtn );
+    btnDisabledPlus();
+    btnDisabledMunus();
   };
   
   // старт игры
   const startGame = () => {
     
-    isStarted = true;
-    score = 0;
+    setting.start = true;
+    setting.score = 0;
     $gameTime.style.color = '#ccc';
     $gameTime.disabled = true;
     $btnPlus.disabled = true;
@@ -238,6 +296,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
     $clickAudio.play();
     hide( $appCarousel );
     hide( $start );
+    hide( $appLevelWrap );
+    hide( $appLevelBtn );
+    $appLevelWrap.classList.remove( 'animate__level--open');
+    $appLevelWrap.classList.remove( 'animate__level--close');
+    $appLevelBtn.classList.remove( 'animate--level__btn--right' );
+    $appLevelBtn.classList.remove( 'animate--level__btn--left' );
     
     const interval = setInterval( () => {
       
@@ -261,13 +325,13 @@ document.addEventListener( 'DOMContentLoaded', () => {
   const handleBoxClick = event => {
     
     const target = event.target;
-    if ( !isStarted ) return;
+    if ( !setting.start ) return;
  
     if ( target.dataset.box ) {
       
       $boxYesAudio.play();
       $boxYesAudio.currentTime = 0;
-      score++;
+      setting.score++;
       renderBox();
     } else {
       $boxNoAudio.play();
@@ -275,14 +339,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
     
   };
 
-  // Slider
+  // слайдер
   const goToSlide = slide => {
     $slides.forEach(
       ( s, i ) => ( s.style.transform = `translateX( ${100 * ( i - slide )}% )` )
     );
   };
 
-  // Next slide
+  // следующий слайд
   const autoSlaiderNext = () => {
     timer = setTimeout( () => {
       clearTimeout( timer );
@@ -300,7 +364,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
     }, 4000 );
   };
 
-  //Prev slide
+  // предыдущий слайд
   const autoSlaiderPrev = () => {
     timer = setTimeout( () => {
       clearTimeout( timer );
@@ -325,7 +389,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
   };
 
   init();
-    
+
   // стилизация input
   $gameTime.addEventListener( 'input', function() {
     let maxChars = 2;
@@ -356,5 +420,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
   $game.addEventListener( 'click', handleBoxClick );
   $btnPlus.addEventListener( 'click', addGameTime ); 
   $btnMinus.addEventListener( 'click', removeGameTime );
-  
+  $appLevelBtn.addEventListener( 'click', openFormModal );
+  $formFieldset.addEventListener( 'click', gameLevel );
+  $end.addEventListener( 'click', exitGame );
 });
