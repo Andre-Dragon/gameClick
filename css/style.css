@@ -186,8 +186,8 @@ body {
   position: relative;
   line-height: 1.5rem;
   z-index: 2; 
-  text-shadow: 1px 0 0#f5f5f5;
-  transition: 3s; 
+  text-shadow: 1px 0 0 #f5f5f5;
+  transition: all 3s; 
   animation: box-show 3s 1; 
   animation-fill-mode: forwards;
 }
@@ -206,23 +206,23 @@ button {
   cursor: pointer;
   user-select: none;
   border: none;
+  outline: none;
   transition: all .1s ease-in-out;
 }
 
-.button,
-.end {
+.button {
   display: block;
   font-size: 1.4rem;
   font-family: 'Open Sans', sans-serif;
   font-weight: 800;
+  line-height: 1.3rem;
   color: #fff;
   text-align: center;
   background: #fad64e;
+  text-transform: uppercase;
   text-shadow: 2px 1px 0px #000;
   box-shadow: 20px 0 20px -20px #000 inset, -20px 0 20px -20px #000 inset, 2px 2px 2px #000, 2px 2px 0px #f5f5f5;
-  line-height: 1.3rem;
   border-radius: 50px 0 50px 50px;
-  text-transform: uppercase;
   transition: all .6s ease-in-out;
 }
 
@@ -416,7 +416,7 @@ button {
   align-items: center;
   justify-content: center;
   max-width: 100%;
-  height: 220px;
+  height: 190px;
   overflow: hidden;
   position: relative;
 }
@@ -442,37 +442,6 @@ button {
   object-fit: cover;
 }
 
-/* .slider__btn {
-  position: absolute;
-  top: 50%;
-  z-index: 10;
-  border: none;
-  background: rgba(250, 213, 78, 0.3);
-  font-family: inherit;
-  color: #333;
-  border-radius: 50%;
-  height: 2.3rem;
-  width: 2.3rem;
-  font-size: 1.25rem;
-  cursor: pointer;
-  transition: all .6s ease-in-out;
-}
-
-.slider__btn:hover {
-  background: rgb(250, 213, 78);
-  transition: all .6s ease-in-out;
-}
-
-.slider__btn--prev {
-  left: 8%;
-  transform: translate(-50%, -50%);
-}
-
-.slider__btn--next {
-  right: 8%;
-  transform: translate(50%, -50%);
-} */
-
 .input {
   display: flex;
   flex-direction: column;
@@ -486,6 +455,7 @@ button {
   display: inline-block;
   max-width: 320px;
   margin-bottom: 6px;
+  text-align: center;
   color: #acacac;
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
@@ -596,28 +566,166 @@ input[type="number"]::-webkit-inner-spin-button {
     6px 6px 0 rgb(255, 255, 255);
   }
 
-.btn,
-.end {
+.btn__start,
+.btn__end {
   position: absolute;
-  top: 70%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%);
   z-index: 1;
   overflow: hidden;
+  padding: 0.8rem 3rem; 
 }
 
-.btn {
-  padding: 1rem 3.6rem;  
+.app__level--wrap {
+  position: absolute;
+  left: 50%;
+  top: 78%;
+  transform: translateX(-50%);
+  z-index: 1;
+  width: 34px;
+  height: 34px;
+  background-image: linear-gradient(315deg, #000000 0%, #414141 74%);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #fff;
+  box-shadow: 2px 2px 3px #000, 
+    -2px 2px 3px #000, 
+    2px -2px 3px #000, 
+    -2px -2px 3px #000;
 }
 
-.end {
-  width: 191px;
-  padding: 1rem 0;
+.app__level--box {
+  position: relative;
+  transition: all .6s ease-in-out;
+}
+
+.app__level--title {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 2rem;
+  line-height: 1.4rem;
+  color: #fff;
+  text-align: center;
+  padding: 6px 0;
+  text-shadow: 1px 1px 3px #111, 
+      -1px 1px 3px #111, 
+      1px -1px 3px #111, 
+      -1px -1px 3px #111;
+}
+
+.app__level--btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 3;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  transition: all .5s ease;
+  border-radius: 50%;
+  box-shadow: 2px 2px 3px #111, 
+      -2px 2px 3px #111, 
+      2px -2px 3px #111, 
+      -2px -2px 3px #111;
+}
+
+.app__level--btn:hover {
+  transform: scale(0.9);
+}
+
+.level__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.form {
+  max-width: 250px;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.form__fieldset {
+  padding: 30px 10px;
+  border: none;
+}
+
+.form__group {
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.form__group:last-child {
+  margin-bottom: 0px;
+}
+
+.form__input--radio {
+  display: none;
+}
+
+.form__label--radio {
+  display: flex;
+  align-items: center;
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.4rem;
+  padding-left: 12px;
+  color: #fff;
+  cursor: pointer;
+  text-shadow: 1px 1px 3px #111, 
+    -1px 1px 3px #111, 
+    1px -1px 3px #111, 
+    -1px -1px 3px #111;
+}
+
+.form__label--radio:before {
+  content: '';
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, .5);
+  margin-right: 20px;
+}
+
+.form__input--radio:checked + .lebel__classic:after {
+  background: url("../images/smails/smiley-3.png");
+}
+.form__input--radio:checked + .lebel__ease:after {
+  background: url("../images/smails/smiley-7.png");
+}
+.form__input--radio:checked + .lebel__middle:after {
+  background: url("../images/smails/smiley-13.png");
+}
+.form__input--radio:checked + .lebel__hard:after {
+  background: url("../images/smails/smiley-8.png");
+}
+
+.form__input--radio:checked + .form__label--radio:after {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 60%;
+  z-index: 1;
+  transform: translateY(-50%);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  width: 50px;
+  height: 50px;
 }
 
 .btn__plus:after,
 .btn__minus:after,
-.button:after {
+.button:after,
+.app__level--btn:after {
   content: "";
   position: absolute; 
   top: 0; 
@@ -626,6 +734,10 @@ input[type="number"]::-webkit-inner-spin-button {
   bottom: 0;
   background: linear-gradient(to left, rgba(255, 255, 255, .0), rgba(255, 255, 255, .8), rgba(255, 255, 255, .0)) no-repeat -2em 0%;
   background-size: 2rem 100%;
+}
+
+.app__level--btn:after {
+  animation: animate__btn--right 3.7s linear infinite;
 }
 
 .button:after {
@@ -640,6 +752,10 @@ input[type="number"]::-webkit-inner-spin-button {
   animation: animate__btn--right 3.3s linear infinite;
 }
 
+.hide {
+  display: none!important;
+}
+
 .animate__modal {
   /* transition: 3.5s; //Скорость перехода состояния элемента */
   animation: box-show 3.5s 1; /* Указываем название анимации, её время и количество повторов*/
@@ -647,8 +763,30 @@ input[type="number"]::-webkit-inner-spin-button {
   /* animation-delay: 5s; */ /* Задержка*/
 }
 
-.hide {
-  display: none!important;
+.animate__level--open {
+  padding-top: 12px;
+  animation: move-open 1s linear;
+}
+
+.animate__level--close {
+  padding-top: 0px;
+  animation: move-close 1s linear;
+}
+
+.animate--level__btn--right {
+  margin: 0 12px 0 0;
+  animation: rotation-right 1s linear 1;
+}
+
+.animate--level__btn--left {
+  margin: 0;
+  animation: rotation-left 1s linear 1;
+}
+
+.animate__level--open,
+.animate__level--close {
+  transition: all 1s ease;
+  animation-fill-mode: forwards;
 }
 
 @keyframes slideInDown {
@@ -708,7 +846,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 @keyframes move-image {
     0% {
-      transform: scale(1, 1)    translateY(0); 
+      transform: scale(1, 1) translateY(0); 
       color: #ff0000;
     }
     10% {
@@ -780,6 +918,99 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
+@keyframes move-open {
+  0% {
+    top: 78%;
+    width: 34px;
+    border-radius: 0 10px 0 10px;
+    box-shadow: 2px 2px 3px #000, 
+      -2px 2px 3px #000, 
+      2px -2px 3px #000, 
+      -2px -2px 3px #000;
+  }
+  40% {
+    top: 78%;
+    width: 320px;
+    height: 34px;
+    border-radius: 0 5px 0 5px;
+    box-shadow: 2px 2px 0 rgb(0, 0, 0),
+    3px 3px 0 rgb(255, 255, 255),
+    5px 5px 0 rgb(0, 0, 0),
+    6px 6px 0 rgb(255, 255, 255);
+  }
+  100% {
+    top: 0;
+    width: 320px;
+    height: 320px;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 rgb(0, 0, 0),
+    3px 3px 0 rgb(255, 255, 255),
+    5px 5px 0 rgb(0, 0, 0),
+    6px 6px 0 rgb(255, 255, 255);
+  }
+}
+
+@keyframes move-close {
+  0% {
+    top: 0;
+    width: 320px;
+    height: 320px;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 rgb(0, 0, 0),
+    3px 3px 0 rgb(255, 255, 255),
+    5px 5px 0 rgb(0, 0, 0),
+    6px 6px 0 rgb(255, 255, 255);
+  }
+  60% {
+    top: 78%;
+    width: 320px;
+    height: 34px;
+    border-radius: 0 5px 0 5px;
+    box-shadow: 2px 2px 0 rgb(0, 0, 0),
+    3px 3px 0 rgb(255, 255, 255),
+    5px 5px 0 rgb(0, 0, 0),
+    6px 6px 0 rgb(255, 255, 255);
+  }
+  100% {
+    top: 78%;
+    width: 34px;
+    height: 34px;
+    border-radius: 50px;
+    box-shadow: 2px 2px 3px #000, 
+      -2px 2px 3px #000, 
+      2px -2px 3px #000, 
+      -2px -2px 3px #000;
+  }
+}
+
+@keyframes rotation-right {
+  0% {
+    margin: 0;
+    transform: rotate(0deg);
+  }
+  80% {
+    margin: 0;
+  }
+  100% {
+    margin: 0 12px 0 0;
+    transform: rotate(900deg);
+  }
+}
+
+@keyframes rotation-left {
+  0% {
+    margin: 0 12px 0 0;
+    transform: rotate(0deg);
+  }
+  20% {
+    margin: 0;
+  }
+  100% {
+    margin: 0;
+    transform: rotate(-900deg);
+  }
+}
+
 @media(max-width: 1140px) {
   .app__wrapper {
     margin: 0 auto;
@@ -819,4 +1050,74 @@ input[type="number"]::-webkit-inner-spin-button {
     max-width: 310px;
     min-width: 310px;
   }
+
+  .input input {
+    max-width: 152px;
+  }
+
+  @keyframes move-open {
+    0% {
+      top: 78%;
+      width: 34px;
+      border-radius: 0 10px 0 10px;
+      box-shadow: 2px 2px 3px #000, 
+      -2px 2px 3px #000, 
+      2px -2px 3px #000, 
+      -2px -2px 3px #000;
+    }
+    40% {
+      top: 78%;
+      width: 310px;
+      height: 34px;
+      border-radius: 0 5px 0 5px;
+      box-shadow: 2px 2px 0 rgb(0, 0, 0),
+      3px 3px 0 rgb(255, 255, 255),
+      5px 5px 0 rgb(0, 0, 0),
+      6px 6px 0 rgb(255, 255, 255);
+    }
+    100% {
+      top: 0;
+      width: 310px;
+      height: 310px;
+      border-radius: 0;
+      box-shadow: 2px 2px 0 rgb(0, 0, 0),
+      3px 3px 0 rgb(255, 255, 255),
+      5px 5px 0 rgb(0, 0, 0),
+      6px 6px 0 rgb(255, 255, 255);
+    }
+  }
+  
+  @keyframes move-close {
+    0% {
+      top: 0;
+      width: 310px;
+      height: 310px;
+      border-radius: 0;
+      box-shadow: 2px 2px 0 rgb(0, 0, 0),
+      3px 3px 0 rgb(255, 255, 255),
+      5px 5px 0 rgb(0, 0, 0),
+      6px 6px 0 rgb(255, 255, 255);
+    }
+    60% {
+      top: 78%;
+      width: 310px;
+      height: 34px;
+      border-radius: 0 5px 0 5px;
+      box-shadow: 2px 2px 0 rgb(0, 0, 0),
+      3px 3px 0 rgb(255, 255, 255),
+      5px 5px 0 rgb(0, 0, 0),
+      6px 6px 0 rgb(255, 255, 255);
+    }
+    100% {
+      top: 78%;
+      width: 34px;
+      height: 34px;
+      border-radius: 50px;
+      box-shadow: 2px 2px 3px #000, 
+      -2px 2px 3px #000, 
+      2px -2px 3px #000, 
+      -2px -2px 3px #000;
+    }
+  }
+  
 }
