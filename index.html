@@ -37,6 +37,7 @@
 <body class="page">
   <div class="app">
     <div class="app__wrapper">
+
       <div class="app__entrance" id="app__entrance">
         <h1 class="entrance__title">
           <span class="span__title title-1">К</span>
@@ -61,6 +62,8 @@
           </div>
         </div>
       </div>
+      <!-- /.add__entrance -->
+
       <div class="app__loader hide" id="app__loader">
         <div class="timer__loader--container">
           <div class="procent__loader">
@@ -91,12 +94,17 @@
           </div>
         </div>
       </div>
+      <!-- /.add__loader -->
+
       <div class="app__game hide" id="app__game">
+
         <div class="app__header">
           <h2 class="header__title" id="time-header">Время игры: <span class="header__time" id="time">10.0</span></h2>
           <h2 class="header__title hide" id="result-header">Ваш результат: <span class="header__result"
               id="result"></span></h2>
         </div>
+        <!-- /.add__header -->
+
         <div class="app__content">
 
           <div class="app__carousel">
@@ -312,11 +320,47 @@
           </div>
           <!-- /.add__carousel -->
 
-          <button class="btn button" id="start">Начать</button>
-          <p class="end hide" id="end">Конец</p>
+          <button class="btn__start button" id="start">Начать</button>
+
+          <div class="app__level--wrap">
+            <div class="app__level--box">
+              <p class="app__level--title">Сложность</p>
+              <p class="app__level--btn">
+                <img src="images/smails/level.png" alt="сложность" class="level__img">
+              </p>
+            </div>
+
+            <form action="#" class="form" id="form">
+              <fieldset class="form__fieldset">
+                <div class="form__group">
+                  <input class="form__input--radio" type="radio" name="radio" id="classic" value="Классическая" checked>
+                  <label class="form__label--radio lebel__classic" for="classic">Классическая</label>
+                </div>
+                <div class="form__group">
+                  <input class="form__input--radio" type="radio" name="radio" id="ease" value="Легкая">
+                  <label class="form__label--radio lebel__ease" for="ease">Легкая</label>
+                </div>
+                <div class="form__group">
+                  <input class="form__input--radio" type="radio" name="radio" id="middle" value="Средняя">
+                  <label class="form__label--radio lebel__middle" for="middle">Средняя</label>
+                </div>
+                <div class="form__group">
+                  <input class="form__input--radio input-radio" type="radio" name="radio" id="hard" value="Сложная">
+                  <label class="form__label--radio lebel__hard" for="hard">Сложная</label>
+                </div>
+              </fieldset>
+            </form>
+            <!-- /form.form -->
+
+          </div>
+          <!-- /.wrap__level -->
+
+          <button class="btn__end button hide" id="end">Конец</button>
           <div class="game" id="game"></div>
 
         </div>
+        <!-- /.add__content -->
+
         <div class="app__footer">
           <div class="input">
             <label for="game-time">Время игры, (сек)</label>
@@ -325,9 +369,14 @@
             <button class="btn__plus" id="btn__plus">&plus;</button>
           </div>
         </div>
+        <!-- /.add__footer -->
+
       </div>
+      <!-- /.add__game -->
     </div>
+    <!-- /.add__wrapper -->
   </div>
+  <!-- /.add -->
   <script src="js/index.js"></script>
 </body>
 
