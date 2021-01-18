@@ -111,6 +111,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
       hide(  $appLoader );
       show(  $appGame );
       $loaderAudio.pause();
+      $loaderAudio.currentTime = 0;
       $fonAudio.play();
     }, 2100);
   };
