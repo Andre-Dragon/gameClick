@@ -165,15 +165,15 @@ document.addEventListener( 'DOMContentLoaded', () => {
     if ( target === $formFieldset ) return;
     switch ( target.id ) {
       case 'classic':
-        setting.min = 40; 
-        setting.max = 100; 
+        setting.min = 30; 
+        setting.max = 90; 
         break; 
       case 'ease':
-        setting.min = 40; 
+        setting.min = 60; 
         setting.max = 100;
         break; 
       case 'middle':
-        setting.min = 30; 
+        setting.min = 40; 
         setting.max = 80;
         break;   
       case 'hard':
