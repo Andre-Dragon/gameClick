@@ -1,8 +1,10 @@
 document.addEventListener( 'DOMContentLoaded', () => {
   'use strict';
 
+  // id основные
   const $start = document.getElementById( 'start' );
   const $end = document.getElementById( 'end' );
+  const $endIcon = document.getElementById( 'end__icon' );
   const $game = document.getElementById( 'game' );
   const $time = document.getElementById( 'time' );
   const $gameTime = document.getElementById( 'game-time' );
@@ -26,7 +28,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
   // модульное окно сложности в игре
   const $appLevelWrap = document.querySelector( '.app__level--wrap' );
   const $appLevelBtn = document.querySelector( '.app__level--btn' );
+  const $levelImgOpen = document.querySelector( '.level__img--open' );
+  const $levelImgClose = document.querySelector( '.level__img--close' );
   const $formFieldset = document.querySelector( '.form__fieldset' );
+
+  // кнопки выход 
+  const $appContent = document.querySelector( '.app__content' );
   
   // аудио
   const $printAudio = new Audio('./audio/print.mp3');
@@ -63,7 +70,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 '#48D1CC', '#FF4500', '#2F4F4F', '#800080', '#A52A2A', '#4B0082', '#32CD32', '#191970', ];
 
   // запрет ввода в input
-  const invalidChars = [ "-", "+", "e", ];
+  const invalidChars = [ '-', '+', 'e', '.', ',' ];
 
   const setting = {
     start: false,
@@ -238,14 +245,16 @@ document.addEventListener( 'DOMContentLoaded', () => {
   };
 
   // открытие и закрытие модульного окна сложности в игре
-  const openFormModal = event => {
-
+  const openFormModal = () => {
+    
     if ( !$appLevelWrap.classList.contains( 'animate__level--open' ) ) {
       $appLevelWrap.classList.add( 'animate__level--open');
       $appLevelWrap.classList.remove( 'animate__level--close');
       $appLevelBtn.classList.add( 'animate--level__btn--right' );
       $appLevelBtn.classList.remove( 'animate--level__btn--left' );
       $loaderAudio.play();
+      hide( $levelImgOpen );
+      show( $levelImgClose );
       setTimeout( () => {
         $loaderAudio.pause();
         $loaderAudio.currentTime = 0;
@@ -257,6 +266,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
       $appLevelBtn.classList.remove( 'animate--level__btn--right' );
       $appLevelBtn.classList.add( 'animate--level__btn--left' );
       $loaderAudio.play();
+      hide( $levelImgClose );
+      show( $levelImgOpen );
       setTimeout( () => {
         $loaderAudio.pause();
         $loaderAudio.currentTime = 0;
@@ -275,11 +286,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
     hide( $timeHeader );
     show( $resultHeader );
     show( $end );
+    show( $endIcon );
     show( $appCarousel );
     $end.disabled = true;
+    $endIcon.disabled = true;
 
     setTimeout( () => {
       $end.disabled = false;
+      $endIcon.disabled = false;
     }, 2000);
 
   };
@@ -294,6 +308,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
     $btnMinus.disabled= false;
     show( $start );
     hide( $end );
+    hide( $endIcon );
     show( $appLevelWrap );
     show( $appLevelBtn );
     btnDisabledPlus();
@@ -321,6 +336,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
     $appLevelWrap.classList.remove( 'animate__level--close');
     $appLevelBtn.classList.remove( 'animate--level__btn--right' );
     $appLevelBtn.classList.remove( 'animate--level__btn--left' );
+    hide( $levelImgClose );
+    show( $levelImgOpen );
+    $loaderAudio.pause();
+    $loaderAudio.currentTime = 0;
     
     const interval = setInterval( () => {
       
@@ -411,16 +430,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
   // стилизация input
   $gameTime.addEventListener( 'input', function() {
-    let maxChars = 2;
-    this.value = this.value.replace(/[e\+\-]/gi, "");
-
+    let maxChars = 2; 
     if ( this.value.length > maxChars ) {
       this.value = this.value.substring( 0, maxChars );
     }
   });
 
   $gameTime.addEventListener( 'change', function() {
-    let value= +$gameTime.value.replace(/\D/g,'');
+    let value = this.value.replace( /\D/g, /[e\+\-\.\,]/gi, '' );
     this.value = Math.min( maxNum, Math.max( minNum, value ) );
     btnDisabledMunus();
     btnDisabledPlus();
@@ -441,6 +458,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
     $clickAudio.play();
     $textAudio.play();
   });
+
+  $appContent.addEventListener( 'click', event => {
+    const target = event.target;
+    if ( target.classList.contains( 'btn__end' ) || 
+    target.classList.contains( 'btn__end--icon' ) ) {
+      exitGame();
+    }
+  });
   
   $entranceBtn.addEventListener( 'click', loaderPageGame );
   $start.addEventListener( 'click', startGame );
@@ -449,5 +474,4 @@ document.addEventListener( 'DOMContentLoaded', () => {
   $btnMinus.addEventListener( 'click', removeGameTime );
   $appLevelBtn.addEventListener( 'click', openFormModal );
   $formFieldset.addEventListener( 'click', gameLevel );
-  $end.addEventListener( 'click', exitGame );
 });
