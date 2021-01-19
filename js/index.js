@@ -431,13 +431,17 @@ document.addEventListener( 'DOMContentLoaded', () => {
   // стилизация input
   $gameTime.addEventListener( 'input', function() {
     let maxChars = 2; 
+
+    this.value = this.value.replace( /[e\+\-\.\,]/gi, '' );
+
     if ( this.value.length > maxChars ) {
       this.value = this.value.substring( 0, maxChars );
     }
+
   });
 
   $gameTime.addEventListener( 'change', function() {
-    let value = this.value.replace( /\D/g, /[e\+\-\.\,]/gi, '' );
+    let value = this.value.replace( /\D/g, '' ) || 0;
     this.value = Math.min( maxNum, Math.max( minNum, value ) );
     btnDisabledMunus();
     btnDisabledPlus();
