@@ -78,6 +78,9 @@ body {
   z-index: 1;
   line-height: 50px;
   overflow: hidden;
+  transition: all 1s;
+  opacity: 1;
+  visibility: visible;
 }
 
 .procent__loader {
@@ -86,7 +89,7 @@ body {
   text-align: center;
   font-weight: bold;
   font-size: 1.625rem;
-  animation: load 2s steps(22, end);
+  animation: load 2.5s steps(22, end);
 }
 
 .move__loading {
