@@ -1,7 +1,7 @@
 document.body.onload = () => {
   'use strict';
 
-  const $appLoader = document.getElementById( 'app__loader' );
+  const $appPreloader = document.getElementById( 'app__preloader' );
 
   let images = document.images,
     imagesCount = images.length,
@@ -12,8 +12,8 @@ document.body.onload = () => {
 
       if ( loadedImg >= imagesCount ) {
         setTimeout( () => {
-          if ( !$appLoader.classList.contains( 'done' ) ) {
-            $appLoader.classList.add( 'done' );
+          if ( !$appPreloader.classList.contains( 'done' ) ) {
+            $appPreloader.classList.add( 'done' );
           }
         }, 1000 );
       }

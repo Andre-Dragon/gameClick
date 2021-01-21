@@ -19,7 +19,6 @@ const $entranceBtn = document.getElementById( 'entrance__btn' );
 const $appEntrance = document.getElementById( 'app__entrance' );
 const $appGame = document.getElementById( 'app__game' );
 const $appLoader = document.getElementById( 'app__loader' );
-const $timerLoaderContainer = document.getElementById( 'timer__loader--container' );
 
 // слайдер
 const $appCarousel = document.querySelector( '.app__carousel' );
@@ -112,20 +111,19 @@ const writeTextByJS = ( id, text, speed ) => {
 const loaderPageGame = () => {
   hide( $appEntrance );
   $clickAudio.play();
+  show( $appLoader );
   $appLoader.classList.remove( 'done' );
-  show( $timerLoaderContainer );
-  $timerLoaderContainer.classList.remove( 'done' );
+  show(  $appGame );
 
   setTimeout( () => {
     if ( !$appLoader.classList.contains( 'done' ) ) {
       $appLoader.classList.add( 'done' );
     } 
-    $timerLoaderContainer.classList.add( 'done' );
+
     setTimeout( () => {
-      hide( $timerLoaderContainer );
+      hide( $appLoader );
     }, 3000 );
 
-    show(  $appGame );
     $fonAudio.play();
   }, 1000 );
 
