@@ -114,12 +114,17 @@ const loaderPageGame = () => {
   $clickAudio.play();
   $appLoader.classList.remove( 'done' );
   show( $timerLoaderContainer );
+  $timerLoaderContainer.classList.remove( 'done' );
 
   setTimeout( () => {
     if ( !$appLoader.classList.contains( 'done' ) ) {
       $appLoader.classList.add( 'done' );
     } 
-    hide( $timerLoaderContainer );
+    $timerLoaderContainer.classList.add( 'done' );
+    setTimeout( () => {
+      hide( $timerLoaderContainer );
+    }, 3000 );
+
     show(  $appGame );
     $fonAudio.play();
   }, 1000 );
