@@ -355,6 +355,7 @@ const exitGame = () => {
   $gameTime.disabled = false;
   $btnPlus.disabled = false;
   $btnMinus.disabled= false;
+  setGameTime();
   hide( $appEpilogue );
   hide( $low );
   hide( $medium );
