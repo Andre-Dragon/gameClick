@@ -32,6 +32,13 @@ const $levelImgClose = document.querySelector( '.level__img--close' );
 const $appLevelTitle = document.querySelector( '.app__level--title' );
 const $formFieldset = document.querySelector( '.form__fieldset' );
 
+// результат игры эпилог 
+const $appEpilogue = document.querySelector( '.app__epilogue' );
+const $low =  document.querySelector('.low');
+const $medium =  document.querySelector('.medium');
+const $high =  document.querySelector('.high');
+
+
 // кнопки выход 
 const $appContent = document.querySelector( '.app__content' );
 
@@ -77,6 +84,8 @@ const setting = {
   score: 0, 
   min: 40,
   max: 90,
+  minCalcul: 1.8,
+  maxCalcul: 2,
 };
 
 let curSlide = 0;
@@ -96,6 +105,7 @@ const writeTextByJS = ( id, text, speed ) => {
 
     if ( !txt[0] ) {
       $printAudio.pause();
+      $printAudio.currentTime = 0;
       $entranceBtn.classList.add( 'animate__modal' );
       return clearInterval( interval );
     }
@@ -109,6 +119,8 @@ const writeTextByJS = ( id, text, speed ) => {
   
 // открытие основной страницы
 const loaderPageGame = () => {
+  $textAudio.pause();
+  $textAudio.currentTime = 0;
   hide( $appEntrance );
   $clickAudio.play();
   show( $appLoader );
@@ -122,7 +134,7 @@ const loaderPageGame = () => {
 
     setTimeout( () => {
       hide( $appLoader );
-    }, 3000 );
+    }, 1000 );
 
     $fonAudio.play();
   }, 1000 );
@@ -229,6 +241,22 @@ const setGameTime = () => {
   
 };
 
+// расчет среднего результата
+function gameResultCalculated() {
+  let time = +$gameTime.value;
+  let minRes = Math.round( time * setting.minCalcul );
+  let maxRes = Math.round( time * setting.maxCalcul );
+
+  if ( setting.score < minRes ) {
+    if ( document.getElementById('low') ) return show( $low );
+  } else  if ( setting.score > maxRes ) {
+    if ( document.getElementById('high') ) return show( $high ); 
+  } else {
+    if ( document.getElementById('medium') ) return show( $medium ); 
+  }
+
+}
+
 // добавление и убавление времени через кнопки
 const addGameTime = () => {
   if ( +$gameTime.value <= maxNum ) {
@@ -299,13 +327,14 @@ const endGame = () => {
   
   setting.start = false;
   setGameScore();
+  show( $appEpilogue );
+  gameResultCalculated();
   $endAudio.play();
   $game.innerHTML = '';
   hide( $timeHeader );
   show( $resultHeader );
   show( $end );
   show( $endIcon );
-  show( $appCarousel );
   $end.disabled = true;
   $endIcon.disabled = true;
   hide( $levelImgClose );
@@ -326,8 +355,13 @@ const exitGame = () => {
   $gameTime.disabled = false;
   $btnPlus.disabled = false;
   $btnMinus.disabled= false;
+  hide( $appEpilogue );
+  hide( $low );
+  hide( $medium );
+  hide( $high );
   show( $start );
   hide( $end );
+  show( $appCarousel );
   hide( $endIcon );
   show( $appLevelWrap );
   show( $appLevelBtn );
