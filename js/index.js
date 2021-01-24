@@ -116,6 +116,17 @@ const writeTextByJS = ( id, text, speed ) => {
   return false;
   
 };
+
+// отключение звука в фоновом режиме
+const fonAudioDisabled = () => {
+
+  if (document.hidden){
+		$fonAudio.pause();
+	} else {
+		$fonAudio.play();  
+	}
+
+};
   
 // открытие основной страницы
 const loaderPageGame = () => {
@@ -136,7 +147,7 @@ const loaderPageGame = () => {
       hide( $appLoader );
     }, 1000 );
 
-    $fonAudio.play();
+    fonAudioDisabled();
   }, 1000 );
 
 };
@@ -350,7 +361,7 @@ const endGame = () => {
 // выход в меню
 const exitGame = () => {
   $clickAudio.play();
-  $fonAudio.play();
+  fonAudioDisabled();
   $gameTime.style.color = '#fff';
   $gameTime.disabled = false;
   $btnPlus.disabled = false;
@@ -524,6 +535,7 @@ $appContent.addEventListener( 'click', event => {
   }
 });
 
+document.addEventListener( 'visibilitychange', fonAudioDisabled );
 $entranceBtn.addEventListener( 'click', loaderPageGame );
 $start.addEventListener( 'click', startGame );
 $game.addEventListener( 'click', handleBoxClick );
