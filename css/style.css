@@ -1,3 +1,4 @@
+/* шрифты */
 @font-face 
 {
   font-family: 'Open Sans';
@@ -25,6 +26,7 @@
   font-style: normal;
 }
 
+/* основные */
 body 
 {
   width: 100%;
@@ -33,6 +35,11 @@ body
   line-height: 1.4rem;
   background: rgba(255, 255, 0, 0.8);
   color: #fff;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
@@ -59,6 +66,7 @@ body
   overflow: hidden;
 }
 
+/* загрузка при старте приложения */
 .app__preloader
 {
   position: fixed;
@@ -184,6 +192,7 @@ body
 
 }
 
+/* загрузка при старте игры */
 .app__loader 
 {
   position: fixed;
@@ -201,29 +210,24 @@ body
   visibility: visible;
 }
 
-.timer__loader--container 
+.loader__container 
 {
   position: absolute;
-  top: calc(50% - 25px);
+  top: calc(50% - 35px);
   left: calc(50% - 35px);
   width: 70px;
-  height: 50px;
+  height: 70px;
   z-index: 1;
-  line-height: 50px;
   overflow: hidden;
   transition: all 1s;
   opacity: 1;
   visibility: visible;
 }
 
-.procent__loader 
-{
-  color: #fff;
-  text-shadow: 1px 1px 1px #f5f5f5;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.625rem;
-  animation: load 2.5s steps(22, end);
+.loader__image {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .move__loading 
@@ -319,6 +323,7 @@ body
   animation: mek 17s linear infinite;
 }
 
+/* модульное окно при старте */
 .app__entrance 
 {
   display: flex; 
@@ -523,6 +528,7 @@ button
   animation-fill-mode: forwards;
 }
 
+/* основные стили игры */
 .app__game 
 {
   display: block;
@@ -565,6 +571,7 @@ button
   align-items: center;
 }
 
+/* слайдер */
 .app__carousel 
 {
   width: 100%;
@@ -612,6 +619,7 @@ button
   object-fit: cover;
 }
 
+/* input number */
 .input 
 {
   display: flex;
@@ -725,6 +733,7 @@ input[type="number"]::-webkit-inner-spin-button
   left: 0;
 }
 
+/* основное окно для игры */
 .game 
 {
   position: relative;
@@ -757,24 +766,27 @@ input[type="number"]::-webkit-inner-spin-button
 .btn__start,
 .btn__end 
 {
-  top: 60%;
   padding: 0.8rem 3rem; 
+}
+
+.btn__start {
+  top: 60%;
+}
+.btn__end {
+  top: 61%;
 }
 
 .btn__end--icon 
 {
-  top: 79%;
+  top: 80%;
   width: 30px;
   height: 30px;
   border-radius: 50px;
   overflow: hidden;
   background: url(../images/smails/exit-icon.png) no-repeat center;
   background-size: contain;
-  box-shadow: 6px 0px 6px -6px #000 inset, 
-    0px -6px 6px -6px #000 inset, 
-    1px 2px 3px rgba(0, 0, 0, .6), 
-    1px -2px 3px rgba(0, 0, 0, .6);
-  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: -20px -15px 10px -23px #000 inset, 
+    1px 2px 2px rgb(0, 0, 0, 0.6);
 }
 
 .button:disabled,
@@ -782,13 +794,14 @@ input[type="number"]::-webkit-inner-spin-button
 .btn__minus:disabled,
 .btn__end--icon:disabled 
 {
-  background-color: #2d3436 !important;
+  background-color: #2d3436;
   background-image: linear-gradient(315deg, #2d3436 0%, #d3d3d3 74%) !important;
   border: 1px solid #2f4f4f;
   color: #000;
   cursor: not-allowed;
 }
 
+/* модульное окно уровни сложности */
 .app__level--wrap 
 {
   position: absolute;
@@ -863,6 +876,7 @@ input[type="number"]::-webkit-inner-spin-button
   height: 100%;
 }
 
+/* уровни сложности radio кнопки */
 .form 
 {
   max-width: 250px;
@@ -910,6 +924,12 @@ input[type="number"]::-webkit-inner-spin-button
     -1px 1px 3px #111, 
     1px -1px 3px #111, 
     -1px -1px 3px #111;
+  transition: all 0.6s;
+}
+
+.form__label--radio:hover {
+  color: #fad64e;
+  transition: all 0.6s;
 }
 
 .form__label--radio:before 
@@ -992,22 +1012,42 @@ input[type="number"]::-webkit-inner-spin-button
   animation: animate__btn--right 3.3s linear infinite;
 }
 
+/* модульное окно конец игры */
 .app__epilogue {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 195px;
+  height: 300px;
   z-index: 1;
 }
 
 .app__epilogue--item {
-  width: 100%;
+  width: 300px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 8px;
+  margin: 10px auto;
+  border: 1px solid #fff;
+  background-image: linear-gradient(40deg, rgba(26, 69, 87, 0) 0%, 
+    rgba(20, 52, 66, 0.4) 10%, rgba(26, 69, 87, 0.6) 20%,
+    rgba(26, 69, 87, 0.7) 30%, rgba(20, 52, 66, 0.8) 40%,
+    rgb(26, 69, 87, 0.8) 50%, rgba(20, 52, 66, 0.8) 60%,
+    rgba(26, 69, 87, 0.7) 70%, rgba(20, 52, 66, 0.6) 80%,
+    rgba(26, 69, 87, 0.4) 90%, rgba(20, 52, 66, 0) 100%);
+}
+
+.low {
+  background-color: rgba(255, 0, 0, 0.9);
+}
+
+.medium {
+  background-color: rgba(255, 230, 0, 0.9);
+}
+
+.high {
+  background-color: rgba(94, 255, 0, 0.9);
 }
 
 .app__epilogue--img {
@@ -1022,17 +1062,17 @@ input[type="number"]::-webkit-inner-spin-button
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   line-height: 1.5rem;
-  text-shadow: 1px 0 0 #f5f5f5;
   margin-top: -10px;
-  text-shadow: 1px 1px 1px #000, 
-    -2px -2px 2px #000;
+  text-shadow: 1px 2px 1px #000, 2px 2px 2px #000;
 }
 
+/* скрыть елементы */
 .hide 
 {
   display: none!important;
 }
 
+/* анимация */
 .animate__modal 
 {
   /* transition: 3.5s; //Скорость перехода состояния элемента */
@@ -1365,6 +1405,7 @@ input[type="number"]::-webkit-inner-spin-button
   }
 }
 
+/* медиа запросы для маленьких разрешений */
 @media(max-width: 1140px) 
 {
   .app__wrapper 
@@ -1436,6 +1477,14 @@ input[type="number"]::-webkit-inner-spin-button
   .input input 
   {
     max-width: 152px;
+  }
+
+  .app__epilogue {
+    height: 290px;
+  }
+
+  .app__epilogue--item {
+    width: 290px;
   }
 
   @keyframes move-open 
