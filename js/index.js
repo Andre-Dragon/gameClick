@@ -118,15 +118,11 @@ const writeTextByJS = ( id, text, speed ) => {
 };
 
 // отключение звука в фоновом режиме
-const fonAudioDisabled = () => {
+// const handleVisibilityChange = () => {
 
-  if (document.hidden){
-		$fonAudio.pause();
-	} else {
-		$fonAudio.play();  
-	}
+//   if (document.hidden) return $fonAudio.pause();
 
-};
+// };
   
 // открытие основной страницы
 const loaderPageGame = () => {
@@ -147,7 +143,8 @@ const loaderPageGame = () => {
       hide( $appLoader );
     }, 1000 );
 
-    fonAudioDisabled();
+    $fonAudio.play();
+    // handleVisibilityChange();
   }, 1000 );
 
 };
@@ -361,7 +358,8 @@ const endGame = () => {
 // выход в меню
 const exitGame = () => {
   $clickAudio.play();
-  fonAudioDisabled();
+  $fonAudio.play();
+  // handleVisibilityChange();
   $gameTime.style.color = '#fff';
   $gameTime.disabled = false;
   $btnPlus.disabled = false;
@@ -535,7 +533,7 @@ $appContent.addEventListener( 'click', event => {
   }
 });
 
-document.addEventListener( 'visibilitychange', fonAudioDisabled );
+// document.addEventListener( 'visibilitychange', handleVisibilityChange );
 $entranceBtn.addEventListener( 'click', loaderPageGame );
 $start.addEventListener( 'click', startGame );
 $game.addEventListener( 'click', handleBoxClick );
