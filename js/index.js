@@ -20,8 +20,11 @@ const $appEntrance = document.getElementById( 'app__entrance' );
 const $appGame = document.getElementById( 'app__game' );
 const $appLoader = document.getElementById( 'app__loader' );
 
+// блок начала и конца игры
+const $appStartGame = document.getElementById( 'app__start--game' );
+const $appEndGame = document.getElementById( 'app__end--game' );
+
 // слайдер
-const $appCarousel = document.querySelector( '.app__carousel' );
 const $slides = document.querySelectorAll( '.app__slide' );
 
 // модульное окно сложности в игре
@@ -33,14 +36,9 @@ const $appLevelTitle = document.querySelector( '.app__level--title' );
 const $formFieldset = document.querySelector( '.form__fieldset' );
 
 // результат игры эпилог 
-const $appEpilogue = document.querySelector( '.app__epilogue' );
 const $low =  document.querySelector('.low');
 const $medium =  document.querySelector('.medium');
 const $high =  document.querySelector('.high');
-
-
-// кнопки выход 
-const $appContent = document.querySelector( '.app__content' );
 
 // аудио
 const $printAudio = new Audio('./audio/print.mp3');
@@ -118,11 +116,15 @@ const writeTextByJS = ( id, text, speed ) => {
 };
 
 // отключение звука в фоновом режиме
-// const handleVisibilityChange = () => {
+const handleVisibilityChange = () => {
 
-//   if (document.hidden) return $fonAudio.pause();
-
-// };
+  if (document.hidden) {
+    $fonAudio.pause();
+  } else if ( !$appStartGame.classList.contains( 'hide' ) ) {
+    $fonAudio.play();
+  }
+ 
+};
   
 // открытие основной страницы
 const loaderPageGame = () => {
@@ -143,8 +145,9 @@ const loaderPageGame = () => {
       hide( $appLoader );
     }, 1000 );
 
+    show( $appStartGame );
     $fonAudio.play();
-    // handleVisibilityChange();
+    handleVisibilityChange();
   }, 1000 );
 
 };
@@ -335,14 +338,12 @@ const endGame = () => {
   
   setting.start = false;
   setGameScore();
-  show( $appEpilogue );
   gameResultCalculated();
   $endAudio.play();
   $game.innerHTML = '';
   hide( $timeHeader );
   show( $resultHeader );
-  show( $end );
-  show( $endIcon );
+  show( $appEndGame );
   $end.disabled = true;
   $endIcon.disabled = true;
   hide( $levelImgClose );
@@ -359,22 +360,17 @@ const endGame = () => {
 const exitGame = () => {
   $clickAudio.play();
   $fonAudio.play();
-  // handleVisibilityChange();
+  handleVisibilityChange();
   $gameTime.style.color = '#fff';
   $gameTime.disabled = false;
   $btnPlus.disabled = false;
   $btnMinus.disabled= false;
   setGameTime();
-  hide( $appEpilogue );
+  hide( $appEndGame );
   hide( $low );
   hide( $medium );
   hide( $high );
-  show( $start );
-  hide( $end );
-  show( $appCarousel );
-  hide( $endIcon );
-  show( $appLevelWrap );
-  show( $appLevelBtn );
+  show( $appStartGame );
   btnDisabledPlus();
   btnDisabledMunus();
 };
@@ -392,10 +388,7 @@ const startGame = () => {
   $fonAudio.pause();
   $fonAudio.currentTime = 0;
   $clickAudio.play();
-  hide( $appCarousel );
-  hide( $start );
-  hide( $appLevelWrap );
-  hide( $appLevelBtn );
+  hide( $appStartGame );
   $loaderAudio.pause();
   $loaderAudio.currentTime = 0;
   $appLevelWrap.classList.remove( 'animate__level--open');
@@ -525,7 +518,7 @@ $questionBtn.addEventListener( 'click', () => {
   $textAudio.play();
 });
 
-$appContent.addEventListener( 'click', event => {
+$appEndGame.addEventListener( 'click', event => {
   const target = event.target;
   if ( target.classList.contains( 'btn__end' ) || 
   target.classList.contains( 'btn__end--icon' ) ) {
@@ -533,7 +526,7 @@ $appContent.addEventListener( 'click', event => {
   }
 });
 
-// document.addEventListener( 'visibilitychange', handleVisibilityChange );
+document.addEventListener( 'visibilitychange', handleVisibilityChange );
 $entranceBtn.addEventListener( 'click', loaderPageGame );
 $start.addEventListener( 'click', startGame );
 $game.addEventListener( 'click', handleBoxClick );
